@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo_container
+    environment:
+      - MONGO_INIT_USERNAME=user
+      - MONGO_INIT_PASSWORD=pass
+    restart: unless-stopped
+    ports:
+      - '27017:271017'
+    volumes:
+      - ./db:/data/db
