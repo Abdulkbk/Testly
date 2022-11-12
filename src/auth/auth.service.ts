@@ -31,7 +31,12 @@ export class AuthService {
   async sigin(user: any) {
     const payload = { name: user.name, id: user.id };
 
-    const refresh = jwt.sign(payload, process.env.REFRESH_SECRET, {
+    // const refresh = jwt.sign(payload, process.env.REFRESH_SECRET, {
+    //   expiresIn: '15d',
+    // });
+
+    const refresh = this.jwtService.sign(payload, {
+      secret: process.env.REFRESH_SECRET,
       expiresIn: '15d',
     });
 
@@ -47,11 +52,15 @@ export class AuthService {
   }
 
   async updateToken(payload: any, refresh_token: string) {
-    const verified = jwt.verify(refresh_token, process.env.REFRESH_SECRET);
+    const verified = this.jwtService.verify(refresh_token, {
+      secret: process.env.REFRESH_SECRET,
+      ignoreExpiration: false,
+    });
     if (verified) {
       return {
         access_token: this.jwtService.sign(payload),
-        refresh_token: jwt.sign(payload, process.env.REFRESH_SECRET, {
+        refresh_token: this.jwtService.sign(payload, {
+          secret: process.env.REFRESH_SECRET,
           expiresIn: '15d',
         }),
       };

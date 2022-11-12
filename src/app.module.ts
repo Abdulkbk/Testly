@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersController } from './user/user.controller';
 import { UsersModule } from './user/user.module';
+import { QuizController } from './quiz/quiz.controller';
+import { QuizModule } from './quiz/quiz.module';
 
 console.log(process.env.MONGO_URI);
 
@@ -14,8 +16,9 @@ console.log(process.env.MONGO_URI);
     MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule,
     UsersModule,
+    QuizModule,
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController, UsersController, QuizController],
   providers: [AppService],
 })
 export class AppModule {}
